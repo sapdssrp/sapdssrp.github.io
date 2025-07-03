@@ -82,7 +82,7 @@ const allowedUsers = {
   
     if (allowedUsers[nama] && allowedUsers[nama] === password) {
       localStorage.setItem('namaPengunjung', nama);
-      window.location.href = "penal.html";
+      window.location.href = "menu.html";
     } else {
       Swal.fire({
         icon: 'error',
