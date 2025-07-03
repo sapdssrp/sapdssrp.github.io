@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mugshot Warrant Gallery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #ff4c4c;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .gallery img {
+      width: 100%;
+      border: 2px solid #444;
+      border-radius: 4px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+      border-color: #ff4c4c;
+    }
+    .toast {
+      visibility: hidden;
+      min-width: 250px;
+      background-color: #333;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      padding: 12px;
+      position: fixed;
+      z-index: 1;
+      left: 50%;
+      bottom: 30px;
+      transform: translateX(-50%);
+    }
+    .toast.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    }
+    @keyframes fadein {
+      from { bottom: 0; opacity: 0; }
+      to { bottom: 30px; opacity: 1; }
+    }
+    @keyframes fadeout {
+      from { bottom: 30px; opacity: 1; }
+      to { bottom: 0; opacity: 0; }
+    }
+  </style>
+</head>
+<!-- Tombol Kembali ke Menu -->
+<a href="menu.html" class="btn btn-outline-light position-absolute top-0 start-0 m-3">
+  ⬅ Kembali ke Menu
+</a>
+<body>
+  <h1>Mugshot Warrant Gallery</h1>
+  <div class="gallery" id="gallery"></div>
+  <div id="toast" class="toast">Link copied to clipboard!</div>
+  <script>
+    const imageUrls = `https://iili.io/3jtkmW7.jpg
+https://iili.io/3jtktb2.jpg
+https://iili.io/3jtkbxS.jpg
+https://iili.io/3jtkPls.jpg
+https://iili.io/3jtkps9.jpg
+https://iili.io/3jtv9fe.jpg
+https://iili.io/3jtvH0u.jpg
+https://iili.io/3jtv2Jj.jpg
+https://iili.io/3jtv35x.jpg
+https://iili.io/3jtvFOQ.jpg
+https://iili.io/3jtvBWP.jpg
+https://iili.io/3jtvoqF.jpg
+https://iili.io/3jtvx0g.jpg
+https://iili.io/3jtvRbp.jpg
+https://iili.io/3jtvYXI.jpg
+https://iili.io/3jtvlqX.jpg
+https://iili.io/3jtv01n.jpg
+https://iili.io/3jtvGdG.jpg
+https://iili.io/3jtvVe4.jpg
+https://iili.io/3jtvWml.jpg
+https://iili.io/3jtvjXS.jpg
+https://iili.io/3jtvOB9.jpg
+https://iili.io/3jtvkru.jpg
+https://iili.io/3jtv8db.jpg
+https://iili.io/3jtvUkx.jpg
+https://iili.io/3jtvgmQ.jpg
+https://iili.io/3jtvsB1.jpg
+https://iili.io/3jtvDYJ.jpg
+https://iili.io/3jtvyIp.jpg
+https://iili.io/3jt8HQI.jpg
+https://iili.io/3jt8dBt.jpg
+https://iili.io/3jt834n.jpg
+https://iili.io/3jt8K2s.jpg
+https://iili.io/3jt8nTl.jpg
+https://iili.io/3jt8xQS.jpg
+https://iili.io/3jt8TG9.jpg
+https://iili.io/3jt8R3u.jpg
+https://iili.io/3jt8Yyx.jpg
+https://iili.io/3jt8cTQ.jpg
+https://iili.io/3jt80ZB.jpg
+https://iili.io/3jt8M6F.jpg
+https://iili.io/3jt8jyv.jpg
+https://iili.io/3jt8Ojp.jpg
+https://iili.io/3jt8vnI.jpg
+https://iili.io/3jt8S6X.jpg
+https://iili.io/3jt8ras.jpg
+https://iili.io/3jt8iu4.jpg
+https://iili.io/3jt8Lt2.jpg
+https://iili.io/3jt8ZnS.jpg
+https://iili.io/3jt8mFe.jpg
+https://iili.io/3jt8pcu.jpg
+https://iili.io/3jtSH9j.jpg
+https://iili.io/3jtSJAx.jpg
+https://iili.io/3jtSKMP.jpg
+https://iili.io/3jtSfP1.jpg
+https://iili.io/3jtSxHJ.jpg
+https://iili.io/3jtSzAv.jpg
+https://iili.io/3jtSAoN.jpg
+https://iili.io/3jtSaln.jpg
+https://iili.io/3jtS0HG.jpg
+https://iili.io/3jtSGDl.jpg
+https://iili.io/3jtSXi7.jpg
+https://iili.io/3jtSwle.jpg
+https://iili.io/3jtSeHb.jpg
+https://iili.io/3jtSvOx.jpg
+https://iili.io/3jtSUxV.jpg
+https://iili.io/3jtSgWB.jpg
+https://iili.io/3jtSriP.jpg
+https://iili.io/3jtS6f1.jpg
+https://iili.io/3jtSP0F.jpg
+https://iili.io/3jtSiUg.jpg
+https://iili.io/3jtStbR.jpg
+https://iili.io/3jtSbxp.jpg
+https://iili.io/3jtSmWN.jpg
+https://iili.io/3jtSpsI.jpg
+https://iili.io/3jtUH0X.jpg
+https://iili.io/3jtU2Js.jpg
+https://iili.io/3jtUFef.jpg
+https://iili.io/3jtUKb4.jpg
+https://iili.io/3jtUx19.jpg
+https://iili.io/3jtUTdu.jpg
+https://iili.io/3jtUu5b.jpg
+https://iili.io/3jtUAej.jpg
+https://iili.io/3jtURmx.jpg
+https://iili.io/3jtU7zQ.jpg
+https://iili.io/3jtUYXV.jpg
+https://iili.io/3jtUlqP.jpg
+https://iili.io/3jtU1rF.jpg
+https://iili.io/3jtUGdg.jpg
+https://iili.io/3jtUM7a.jpg
+https://iili.io/3jtUVkJ.jpg
+https://iili.io/3jtUWmv.jpg
+https://iili.io/3jtUhIR.jpg
+https://iili.io/3jtUjXp.jpg
+https://iili.io/3jtUOBI.jpg
+https://iili.io/3jtUe1t.jpg
+https://iili.io/3jtUkrX.jpg
+https://iili.io/3jtU82n.jpg
+https://iili.io/3jtUS7s.jpg
+https://iili.io/3jtUUkG.jpg
+https://iili.io/3jtU4I4.jpg
+https://iili.io/3jtU6hl.jpg
+https://iili.io/3jtUPQ2.jpg
+https://iili.io/3jtUsBS.jpg
+https://iili.io/3jtULE7.jpg
+https://iili.io/3jtUt2e.jpg
+https://iili.io/3jtUDYu.jpg
+https://iili.io/3jtUbkb.jpg
+https://iili.io/3jtUyTx.jpg
+https://iili.io/3jtg9hQ.jpg
+https://iili.io/3jtgHQV.jpg
+https://iili.io/3jtgdCB.jpg
+https://iili.io/3jtg2EP.jpg
+https://iili.io/3jtg341.jpg
+https://iili.io/3jtgK3F.jpg
+https://iili.io/3jtgfYg.jpg
+https://iili.io/3jtgqva.jpg
+https://iili.io/3jtgByJ.jpg
+https://iili.io/3jtgnTv.jpg
+https://iili.io/3jtgojR.jpg
+https://iili.io/3jtgxQp.jpg
+https://iili.io/3jtgICN.jpg
+https://iili.io/3jtgTGI.jpg
+https://iili.io/3jtgu4t.jpg
+https://iili.io/3jtg5an.jpg
+https://iili.io/3jtg7vs.jpg
+https://iili.io/3jtgYyG.jpg
+https://iili.io/3jtglj4.jpg
+https://iili.io/3jtg0Zl.jpg
+https://iili.io/3jtgEn2.jpg
+https://iili.io/3jtgGGS.jpg
+https://iili.io/3jtgWF9.jpg
+https://iili.io/3jtgXae.jpg
+https://iili.io/3jtgh8u.jpg
+https://iili.io/3jtgjyb.jpg
+https://iili.io/3jtgNuj.jpg
+https://iili.io/3jtgOwx.jpg
+https://iili.io/3jtgeZQ.jpg
+https://iili.io/3jtgvnV.jpg
+https://iili.io/3jtg8MB.jpg
+https://iili.io/3jtgS6P.jpg
+https://iili.io/3jtggF1.jpg
+https://iili.io/3jtgrcF.jpg
+https://iili.io/3jtg48g.jpg
+https://iili.io/3jtgiAJ.jpg
+https://iili.io/3jtgswv.jpg
+https://iili.io/3jtgZnp.jpg
+https://iili.io/3jtgtMN.jpg
+https://iili.io/3jtgDPI.jpg
+https://iili.io/3jtgmFt.jpg
+https://iili.io/3jtgpcX.jpg
+https://iili.io/3jtrH9s.jpg
+https://iili.io/3jtrJAG.jpg
+https://iili.io/3jtrdNf.jpg
+https://iili.io/3jtr2t4.jpg
+https://iili.io/3jtrKV2.jpg
+https://iili.io/3jtrfPS.jpg
+https://iili.io/3jtrBK7.jpg
+https://iili.io/3jtrCl9.jpg
+https://iili.io/3jtrnSe.jpg
+https://iili.io/3jtrxHu.jpg
+https://iili.io/3jtrzAb.jpg
+https://iili.io/3jtrTDx.jpg
+https://iili.io/3jtrAoQ.jpg
+https://iili.io/3jtrRVV.jpg
+https://iili.io/3jtr5iB.jpg
+https://iili.io/3jtrYKP.jpg
+https://iili.io/3jtral1.jpg
+https://iili.io/3jtrcUF.jpg
+https://iili.io/3jtr0Hg.jpg
+https://iili.io/3jtr1Ra.jpg
+https://iili.io/3jtrEOJ.jpg
+https://iili.io/3jtrGDv.jpg
+https://iili.io/3jtrVxR.jpg
+https://iili.io/3jtrWVp.jpg
+https://iili.io/3jtrXiN.jpg
+https://iili.io/3jtrjfI.jpg
+https://iili.io/3jtrwlt.jpg
+https://iili.io/3jtrNUX.jpg
+https://iili.io/3jtreJn.jpg
+https://iili.io/3jtrkRs.jpg
+https://iili.io/3jtrvOG.jpg
+https://iili.io/3jtrUx4.jpg
+https://iili.io/3jtrgWl.jpg
+https://iili.io/3jtrrs2.jpg
+https://iili.io/3jtr6fS.jpg
+https://iili.io/3jtrP07.jpg
+https://iili.io/3jtrLJe.jpg
+https://iili.io/3jtrQ5u.jpg
+https://iili.io/3jtrZOb.jpg
+https://iili.io/3jtrtbj.jpg
+https://iili.io/3jtrbzx.jpg
+https://iili.io/3jtrmWQ.jpg
+https://iili.io/3jt49qB.jpg
+https://iili.io/3jt4H0P.jpg
+https://iili.io/3jt4Jg1.jpg
+https://iili.io/3jt42dF.jpg
+https://iili.io/3jt4Fea.jpg
+https://iili.io/3jt4qzv.jpg
+https://iili.io/3jt4BXR.jpg
+https://iili.io/3jt4Csp.jpg
+https://iili.io/3jt4x1I.jpg
+https://iili.io/3jt4TdX.jpg
+https://iili.io/3jt4Aes.jpg
+https://iili.io/3jt4RmG.jpg
+https://iili.io/3jt4YX4.jpg
+https://iili.io/3jt4aLl.jpg
+https://iili.io/3jt401S.jpg
+https://iili.io/3jt41r7.jpg
+https://iili.io/3jt4G29.jpg
+https://iili.io/3jt4Vku.jpg
+https://iili.io/3jt4hIj.jpg
+https://iili.io/3jt4jhx.jpg
+https://iili.io/3jt4wLQ.jpg
+https://iili.io/3jt4OBV.jpg
+https://iili.io/3jt4eEB.jpg
+https://iili.io/3jt4krP.jpg
+https://iili.io/3jt4821.jpg
+https://iili.io/3jt4SYF.jpg
+https://iili.io/3jt4Ukg.jpg
+https://iili.io/3jt44TJ.jpg
+https://iili.io/3jt46hv.jpg
+https://iili.io/3jt4PQR.jpg
+https://iili.io/3jt4sBp.jpg
+https://iili.io/3jt4LEN.jpg
+https://iili.io/3jt4Q4I.jpg
+https://iili.io/3jt4t2t.jpg
+https://iili.io/3jt4DYX.jpg
+https://iili.io/3jt4mps.jpg
+https://iili.io/3jt4yTG.jpg
+https://iili.io/3jt69jf.jpg
+https://iili.io/3jt6HQ4.jpg
+https://iili.io/3jt6dCl.jpg
+https://iili.io/3jt62G2.jpg
+https://iili.io/3jt6K37.jpg
+https://iili.io/3jt6fa9.jpg
+https://iili.io/3jt6qve.jpg
+https://iili.io/3jt6Byu.jpg
+https://iili.io/3jt6nTb.jpg
+https://iili.io/3jt6ojj.jpg
+https://iili.io/3jt6xZx.jpg
+https://iili.io/3jt6ICQ.jpg
+https://iili.io/3jt6TGV.jpg
+https://iili.io/3jt6u6B.jpg
+https://iili.io/3jt6R3P.jpg
+https://iili.io/3jt65a1.jpg
+https://iili.io/3jt678F.jpg
+https://iili.io/3jt6cua.jpg
+https://iili.io/3jt6lwJ.jpg
+https://iili.io/3jt60Zv.jpg
+https://iili.io/3jt6EnR.jpg
+https://iili.io/3jt6GGp.jpg
+https://iili.io/3jt6WFI.jpg
+https://iili.io/3jt6Xat.jpg
+https://iili.io/3jt6h8X.jpg
+https://iili.io/3jt6w9n.jpg
+https://iili.io/3jt6Nus.jpg
+https://iili.io/3jt6OwG.jpg
+https://iili.io/3jt6vn4.jpg
+https://iili.io/3jt68Ml.jpg
+https://iili.io/3jt6gFS.jpg
+https://iili.io/3jt64S9.jpg
+https://iili.io/3jt6P9e.jpg
+https://iili.io/3jt6iAu.jpg
+https://iili.io/3jt6Ltj.jpg
+https://iili.io/3jt6Zox.jpg
+https://iili.io/3jt6tMQ.jpg
+https://iili.io/3jt6DPV.jpg
+https://iili.io/3jt6mKB.jpg
+https://iili.io/3jt6pcP.jpg
+https://iili.io/3jt6yS1.jpg
+https://iili.io/3jtPHHF.jpg
+https://iili.io/3jtP2DJ.jpg
+https://iili.io/3jtPFov.jpg
+https://iili.io/3jtPKVR.jpg
+https://iili.io/3jtPfPp.jpg
+https://iili.io/3jtPBKN.jpg
+https://iili.io/3jtPClI.jpg
+https://iili.io/3jtPnSt.jpg
+`.trim().split('\n');
+
+    const gallery = document.getElementById('gallery');
+    imageUrls.forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.alt = "Mugshot";
+      img.onclick = () => copyToClipboard(url);
+      gallery.appendChild(img);
+    });
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const toast = document.getElementById("toast");
+        toast.className = "toast show";
+        setTimeout(() => toast.className = toast.className.replace("show", ""), 3000);
+      });
+    }
+  </script>
+</body>
+</html>

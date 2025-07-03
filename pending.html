@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pending Warrant Review</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-white">
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Pending Warrant Review</h1>
+    <table class="table table-dark table-striped">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Tanggal</th>
+          <th>Link</th>
+          <th>Risk</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody id="pendingTable"></tbody>
+    </table>
+    <div id="status" class="mt-3"></div>
+  </div>
+
+  <script>
+    const API_KEY = '$2a$10$bfAS5vCz5xJ8nG7KfYFw9e4hU8K9hjiZcljZ388YC0md.jDliS/gK';
+    const PENDING_BIN_ID = '68137ab58a456b79669553a7';
+    const APPROVED_BIN_ID = '681360548561e97a500b7043';
+
+    let pendingData = [];
+
+    async function loadPending() {
+      const statusDiv = document.getElementById('status');
+      statusDiv.innerHTML = '⏳ Memuat data pending...';
+      try {
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${PENDING_BIN_ID}/latest`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const result = await res.json();
+        pendingData = result.record;
+        renderPending();
+        statusDiv.innerHTML = '';
+      } catch (err) {
+        console.error(err);
+        statusDiv.innerHTML = '<div class="text-danger">❌ Gagal memuat data pending.</div>';
+      }
+    }
+
+    function renderPending() {
+      const tbody = document.getElementById('pendingTable');
+      tbody.innerHTML = '';
+      pendingData.forEach((item, index) => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${item.name}</td>
+          <td>${item.date}</td>
+          <td><a href="${item.link}" target="_blank" class="text-info">Lihat</a></td>
+          <td>${item.risk}</td>
+          <td><button class="btn btn-sm btn-success" onclick="approve(${index})">Approve</button></td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    async function approve(index) {
+      const approvedItem = pendingData[index];
+      pendingData.splice(index, 1); // hapus dari pending
+      try {
+        // Ambil approved
+        const res = await fetch(`https://api.jsonbin.io/v3/b/${APPROVED_BIN_ID}/latest`, {
+          headers: { 'X-Master-Key': API_KEY }
+        });
+        const approvedResult = await res.json();
+        const approvedList = approvedResult.record;
+        approvedList.push(approvedItem);
+
+        // Simpan ke approved
+        await fetch(`https://api.jsonbin.io/v3/b/${APPROVED_BIN_ID}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
+          body: JSON.stringify(approvedList)
+        });
+
+        // Update pending bin
+        await fetch(`https://api.jsonbin.io/v3/b/${PENDING_BIN_ID}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Master-Key': API_KEY
+          },
+          body: JSON.stringify(pendingData)
+        });
+
+        document.getElementById('status').innerHTML = '<div class="text-success">✅ Data berhasil dipindahkan ke Approved!</div>';
+        renderPending();
+      } catch (err) {
+        console.error(err);
+        document.getElementById('status').innerHTML = '<div class="text-danger">❌ Gagal memindahkan data.</div>';
+      }
+    }
+
+    loadPending();
+  </script>
+</body>
+</html>

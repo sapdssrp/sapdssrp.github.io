@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Generator BBCode - Arrest Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      background-color: #121212;
+      color: white;
+      padding: 30px;
+    }
+    .form-control, .form-select {
+      background-color: #1f1f1f;
+      color: white;
+      border: 1px solid #555;
+    }
+    .form-label {
+      font-weight: 500;
+    }
+    textarea#result {
+      background: #1f1f1f;
+      color: #00e676;
+      font-family: monospace;
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body class="container">
+  <h2 class="mb-4">Generator BBCode - Arrest Report</h2>
+
+  <form id="bbcode-form">
+    <div class="mb-3"><label class="form-label">Nama Petugas</label><input type="text" class="form-control" id="fullname" required></div>
+    <div class="mb-3"><label class="form-label">Badge</label><input type="text" class="form-control" id="serial"></div>
+    <div class="mb-3"><label class="form-label">Pangkat</label><input type="text" class="form-control" id="rank"></div>
+
+    <hr>
+    <h5>Unggah Gambar:</h5>
+    <div class="mb-3"><label class="form-label">ID Card</label><input type="file" class="form-control" id="idcardFile"></div>
+    <div class="mb-3"><label class="form-label">Barang Bukti</label><input type="file" class="form-control" id="evidenceImgFile"></div>
+    <div class="mb-3"><label class="form-label">Charges (MDC > Crime Record)</label><input type="file" class="form-control" id="chargesFile"></div>
+    <div class="mb-3"><label class="form-label">MDC Summary</label><input type="file" class="form-control" id="mdcFile"></div>
+    <div class="mb-3"><label class="form-label">Foto Muka Tersangka (Mugshot)</label><input type="file" class="form-control" id="mugshotFile"></div>
+
+    <button type="button" class="btn btn-warning" onclick="uploadImages()">Upload Gambar</button>
+    <button type="button" class="btn btn-success ms-2" onclick="generateBBCode()" id="generateBtn" disabled>Generate BBCode</button>
+    <button type="button" class="btn btn-secondary ms-2" onclick="copyBBCode()">Copy</button>
+  </form>
+
+  <textarea id="result" rows="30" class="form-control mt-4" readonly></textarea>
+
+  <script>
+    const imgurClientId = '894beeef6cd80f4';
+    let links = {};
+
+    async function uploadSingleImage(file, label) {
+      const formData = new FormData();
+      formData.append('image', file);
+
+      Swal.fire({
+        title: `Mengunggah ${label}...`,
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      try {
+        const response = await fetch('https://api.imgur.com/3/image', {
+          method: 'POST',
+          headers: { Authorization: `Client-ID ${imgurClientId}` },
+          body: formData
+        });
+        const data = await response.json();
+        Swal.close();
+
+        if (data.success) return data.data.link;
+        throw new Error("Upload gagal");
+      } catch (error) {
+        Swal.fire('Error', `Gagal mengunggah ${label}`, 'error');
+        return '';
+      }
+    }
+
+    async function uploadImages() {
+      const files = {
+        idcard: document.getElementById('idcardFile').files[0],
+        evidence: document.getElementById('evidenceImgFile').files[0],
+        charges: document.getElementById('chargesFile').files[0],
+        mdc: document.getElementById('mdcFile').files[0],
+        mugshot: document.getElementById('mugshotFile').files[0]
+      };
+
+      if (Object.values(files).some(f => !f)) {
+        Swal.fire('Gagal', 'Semua gambar harus diunggah terlebih dahulu.', 'error');
+        return;
+      }
+
+      links.idcard = await uploadSingleImage(files.idcard, "ID Card");
+      links.evidence = await uploadSingleImage(files.evidence, "Barang Bukti");
+      links.charges = await uploadSingleImage(files.charges, "Charges");
+      links.mdc = await uploadSingleImage(files.mdc, "MDC Summary");
+      links.mugshot = await uploadSingleImage(files.mugshot, "Mugshot");
+
+      if (Object.values(links).every(link => link)) {
+        Swal.fire('Berhasil', 'Semua gambar berhasil diunggah!', 'success');
+        document.getElementById('generateBtn').disabled = false;
+      }
+    }
+
+    function generateBBCode() {
+      const name = document.getElementById('fullname').value;
+      const serial = document.getElementById('serial').value;
+      const rank = document.getElementById('rank').value;
+
+      const bbcode = `[divbox=white]
+[align=center][fimg=120,120]https://i.imgur.com/6vMl0Hh.png[/fimg]
+[b]SAN ANDREAS POLICE DEPARTMENT
+ARREST REPORT[/b][/align]
+[hr]
+[b]Officer Information[/b]:
+[list]
+[*][b]Name[/b]: ${name}
+[*][b]Badge[/b]: ${serial}
+[*][b]Rank[/b]: ${rank}
+[/list]
+[b]Summary[/b]:
+[list]
+[*]ID Card
+[spoiler][img]${links.idcard}[/img][/spoiler]
+[*]Suspect Items
+[spoiler][img]${links.evidence}[/img][/spoiler]
+[*]Charges (MDC > Crime Record)
+[spoiler][img]${links.charges}[/img][/spoiler]
+[*]MDC (Summary)
+[spoiler][img]${links.mdc}[/img][/spoiler]
+[*]Suspect Mugshot
+[spoiler][img]${links.mugshot}[/img][/spoiler]
+[/list]
+[/divbox]`;
+
+      document.getElementById('result').value = bbcode;
+    }
+
+    function copyBBCode() {
+      const result = document.getElementById('result');
+      result.select();
+      document.execCommand('copy');
+      Swal.fire('Disalin!', 'BBCode telah disalin ke clipboard.', 'success');
+    }
+  </script>
+</body>
+</html>

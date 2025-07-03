@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kode 10 - Halaman Futuristik</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Orbitron', sans-serif;
+      background: linear-gradient(120deg, #0f0f0f, #1a1a2e);
+      color: #ffffff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid #0059ff;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px #0059ff;
+      max-width: 800px;
+      width: 100%;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    details {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid #008cff;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    summary {
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .code-list {
+      font-size: 1rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      margin-top: 1rem;
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Protocol Comunication</h1>
+    <details>
+      <summary>10-CODE</summary>
+      <div class="code-list">
+10-1 : DIHARAPKAN BERKUMPUL
+10-3 : HENTIKAN TRANSMISI
+10-4 : ROGER THAT/OK
+10-5 : ULANGI TRANSMISI TERAKHIR.
+10-6 : ABAIKAN/LUPAKAN/CANCEL
+10-7 : SIAGA UNTUK SELANJUTNYA.
+10-8 : SIBUK/NOT AVAILABLE
+10-9 : SIBUK/NOT AVAILABLE (Sedang dalam operasi rahasia detektif).
+10-14 : MEMINTA JEMPUTAN (Termasuk lokasi dan lokasi target).
+10-15 : PROSEDUR PENANGKAPAN SUSPECT (Termasuk jumlah tersangka dan lokasi sasaran (Contoh : SAPD HQ/SACF).
+10-18 : DIPERLUKAN BANTUAN LEBIH LANJUT (?)
+10-20 : LOKASI
+10-21 : MELAPORKAN LOKASI DAN STATUS
+10-22 : LAPORKAN SECARA LANGSUNG (termasuk lokasi target).
+10-27 : BERALIH SALURAN RADIO.
+10-40 : PERKUMPULAN ORANG DI AREA (empat atau lebih).
+10-41 : ILLEGAL ACTIVITY
+10-46 : MELAKUKAN PENGGELEDAHAN
+10-55 : TRAFFIC STOP
+10-56 : PEMERIKSAAN KOMPUTER (menggunakan MDC).
+10-57 VICTOR : DALAM PENGEJARAN KENDARAAN. (Model kendaraan negara, warna, area, arah perjalanan dan TAC)
+10-57 FOXTROT : DALAM PENGEJARAN JALAN KAKI. (Sebutkan deskripsi singkat tersangka, senjata jika ada, area, arah perjalanan dan jika diperlukan, TAC)
+10-60 : DESKRIPSI KENDARAAN (Termasuk nama kendaraan, warna, jumlah penumpang dan fitur yang jelas seperti jumlah pintu atau kerusakan kendaraan).
+10-61 : DESKRIPSI SUSPECT (Termasuk identitas/ras, pakaian, ciri khas).
+10-66 : FELONY STOP
+10-70 : PERMINTAAN PENCADANGAN. (Tentukan kode 1, 2 atau 3, lokasi dan unit spesifik apa pun yang diperlukan).
+10-71 : REQUEST PARAMEDIC UNIT
+10-80 : PETUGAS DALAM KESULITAN
+      </div>
+    </details>
+
+    <details>
+      <summary>Code Status</summary>
+      <div class="code-list">
+Code 0 : Diperlukan bantuan mendesak. Semua satuan tugas harus segera menghentikan apa yang sedang mereka lakukan, baik yang menetapkan tersangka atau terlibat dalam pengejaran aktif, dan menghadiri kode 0 sesegera mungkin. Tanda Kode 0 adalah saat petugas sudah down.
+Code 1 : Petugas dalam panggilan darurat.
+Code 2 : Merespon panggilan non-darurat artinya tanpa lampu dan sirine tapi jika ada apa-apa biarkan terus merespon, dan jika macet, nyalakan lampu dan sirene sejenak.
+Code 3 : Merespon panggilan darurat yang artinya dengan lampu dan sirine.
+Code 4 : Tidak diperlukan unit lagi.
+Code 5 : Seorang detektif/petugas menyuruh untuk menjauh dari area tersebut (Biasanya digunakan saat ada penyelidikan yang sedang berlangsung di suatu lokasi).
+Code 6 : Pemeriksaan di luar mobil (Investigasi).
+Code 7 : Istirahat, tidak bisa dihubungi.
+
+      </div>
+    </details>
+
+    <details>
+      <summary>Identity Character</summary>
+      <div class="code-list">
+        IC1 Kulit Putih 
+        IC2 Kulit Hitam 
+        IC3 Latin 
+        IC4 Timur Tengah 
+        IC5 Asia 
+        IC6 Tidak Diketahui
+      </div>
+    </details>
+
+
+    <details>
+      <summary>Status</summary>
+      <div class="code-list">
+        STATUS 1: off duty 
+        STATUS 2: On duty 
+        STATUS 3: Istirahat 
+        STATUS 4: Patroli
+      </div>
+    </details>
+  </div>
+</body>
+</html>

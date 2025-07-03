@@ -1,0 +1,1815 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+ <head>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+ <script src="assets/js/color-modes.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Hugo 0.122.0">
+    <title>SAPD Penal Tool</title>
+    <link rel="icon" type="image/x-icon" href="assets/brand/sapd.png">
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@docsearch/css@3">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"></script>
+
+
+
+<style>
+
+  
+
+body {
+  background-color: #0a0a0a;
+  color: #e0e0e0;
+  font-family: 'Courier New', monospace;
+}
+
+
+table th, table td {
+  vertical-align: middle;
+  font-size: 0.85rem;
+}
+
+h2 {
+  font-weight: bold;
+  color: #00bfff;
+}
+
+.btn {
+  font-size: 0.75rem;
+  padding: 2px 6px;
+}
+
+#violate-select th:nth-child(1), 
+#violate-select td:nth-child(1) { width: 8%; }   /* Code */
+#violate-select th:nth-child(2), 
+#violate-select td:nth-child(2) { width: 30%; }  /* Violation */
+#violate-select th:nth-child(3), 
+#violate-select td:nth-child(3) { width: 10%;   text-align: center;
+  white-space: nowrap; }  /* Jailtime */
+#violate-select th:nth-child(4), 
+#violate-select td:nth-child(4) { width: 10%;   text-align: center;
+  white-space: nowrap; }  /* Fine */
+
+
+    
+@media (max-width: 768px) {
+  #violate-select tfoot td {
+    display: block;
+    width: 100%;
+  }
+  #violate-select tfoot input {
+    margin-bottom: 0.5rem;
+    width: 100%;
+  }
+}
+table td:last-child, table th:last-child {
+  width: 50px;
+  max-width: 60px;
+  text-align: center;
+}
+
+/* Kurangi ukuran tombol dan atur tampilannya */
+#violate-data td:last-child button,
+#violate-select td:last-child button {
+  font-size: 10px;
+  padding: 2px 6px;
+  width: 100%;
+  white-space: nowrap;
+}
+
+.dataTables_filter {
+  margin-top: -30px;
+}
+
+td {
+  vertical-align: middle;
+}
+
+/* Hilangkan spinner di input type number (Chrome, Safari, Edge, Opera) */
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hilangkan spinner di Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+
+</style>
+	
+
+  </head>
+  <body class="bg-body-tertiary animate__animated animate__fadeIn">
+    <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+      <symbol id="check2" viewBox="0 0 16 16">
+        <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+      </symbol>
+      <symbol id="circle-half" viewBox="0 0 16 16">
+        <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+      </symbol>
+      <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+        <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+        <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+      </symbol>
+      <symbol id="sun-fill" viewBox="0 0 16 16">
+        <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+      </symbol>
+    </svg>
+	
+</body>
+
+
+
+<div class="container">
+  <main>
+    <div class="py-5 text-center">
+      <img class="d-block mx-auto mb-4" src="assets/brand/sapd.png" alt="" width="72" height="72">
+      <h2>PENAL CODE</h2>
+      <span>San Andreas Police Department - SSRP</span>
+	  <p> Bingung? <a href="https://police-state.site/viewforum.php?f=13" target="_blank" >Klik Disini!</a></p>
+    </div>
+<div class="row g-4">
+  <!-- Tabel utama (kiri) -->
+  <div class="col-md-6">
+    <h4 class="text-muted">Database Violation</h4>
+    <div class="table-responsive">
+      <table class="table table-bordered table-dark" id="violate-data" style="font-size: 0.85rem;">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Violation</th>
+            <th>Jailtime</th>
+            <th>Fine</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="align-middle"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Tabel pilihan (kanan) -->
+  <div class="col-md-6">
+    <h4 class="text-muted">Selected Charges</h4>
+      <table class="table table-bordered table-dark" id="violate-select" style="font-size: 0.85rem;">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Violation</th>
+            <th>Jailtime</th>
+            <th>Fine</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody class="align-middle"></tbody>
+        <tfoot>
+<tfoot>
+    <tr>
+    <td class="text-start" colspan="5">
+    <label for="suspectid" class="form-label">Suspect ID:</label>
+    <input type="number" id="suspectid" class="form-control form-control-sm bg-dark text-light border-secondary" placeholder="Masukkan ID Player" min="0" step="1">
+    </td>
+  </tr>
+  <tr>
+  <tr>
+    <td class="text-start" colspan="5">
+      <b>Code Penal:</b>
+<div class="input-group mt-1">
+  <input type="text" id="codeList" class="form-control form-control-sm bg-dark text-light border-secondary" readonly>
+  <button class="btn btn-outline-light btn-sm" type="button" id="copyCodeBtn">Copy PenCode</button>
+</div>
+    </td>
+  </tr>
+    <td class="text-start" colspan="5">
+      <b>Command:</b>
+      <input type="text" id="arrest" class="form-control form-control-sm bg-dark text-light border-secondary mt-1" value="/arrest 0 [Cell ID (1-7)] 0 0" readonly>
+      <div class="mt-2 d-flex justify-content-end gap-2">
+        <button type="button" id="copyarrest" class="btn btn-primary btn-sm">Copy</button>
+        <button type="button" id="resetAllBtn" class="btn btn-danger btn-sm">Reset All</button>
+      </div>
+    </td>
+  </tr>
+</tfoot>
+
+        </tfoot>
+      </table>
+      
+    </div>
+</div>
+
+            
+    </div>
+  </main>
+
+  </main>
+
+  <footer class="my-5 pt-5 text-body-secondary text-center text-small">
+    <p class="mb-1">&copy; Generated by Dean Mcdavian</p>
+  </footer>
+</div>
+
+<div class="text-center my-4">
+  <h6 class="text-muted">Pengunjung Online Saat Ini:</h6>
+  <ul id="visitorList" class="list-unstyled text-light small"></ul>
+</div>
+
+</div>
+<script>
+
+
+
+$('#violate-data tbody').on('click', 'tr', function(e) {
+  // Abaikan jika klik langsung tombol Add (supaya tidak dobel)
+  if ($(e.target).is('button')) return;
+
+  // Cari tombol Add di baris yang diklik
+  const $addButton = $(this).find('button.btn-success');
+
+  // Jika tombolnya aktif (tidak disabled), klikkan secara otomatis
+  if ($addButton.length && !$addButton.prop('disabled')) {
+    $addButton.trigger('click');
+  }
+});
+
+
+
+
+// Fungsi sederhana untuk simulasi jumlah visitor online
+
+
+$('#violate-select').on('click', '.copy-btn', function () {
+    var code = $(this).attr('code');
+    var violation = $(this).attr('violation');
+
+    var cleanCode = code.replace(/\s+/g, ' ').trim();
+    var cleanViolation = violation.trim();
+
+    var textToCopy = '/su' + ' ' + suspectid + ' ' + cleanCode + ' ' + cleanViolation;
+
+navigator.clipboard.writeText(textToCopy).then(() => {
+  // Notifikasi tengah layar fade
+  const notif = document.createElement('div');
+  notif.textContent = '✓✓Command berhasil disalin!';
+  notif.style.position = 'fixed';
+  notif.style.top = '50%';
+  notif.style.left = '50%';
+  notif.style.transform = 'translate(-50%, -50%)';
+  notif.style.padding = '12px 20px';
+  notif.style.background = '#222';
+  notif.style.color = '#fff';
+  notif.style.borderRadius = '8px';
+  notif.style.fontSize = '16px';
+  notif.style.opacity = '0';
+  notif.style.transition = 'opacity 0.3s ease';
+  notif.style.zIndex = '9999';
+
+  document.body.appendChild(notif);
+
+  // Fade in
+  requestAnimationFrame(() => {
+    notif.style.opacity = '1';
+  });
+
+  // Fade out dan hapus
+  setTimeout(() => {
+    notif.style.opacity = '0';
+    setTimeout(() => notif.remove(), 300);
+  }, 1500);
+
+  // Nonaktifkan tombol copy setelah berhasil
+  const copyBtn = document.querySelector(`.copy-btn[code="${code}"]`);
+  if (copyBtn) {
+    copyBtn.disabled = true;
+    copyBtn.classList.add('disabled'); // Opsional styling
+    copyBtn.textContent = '✓ Copied';
+  }
+});
+});
+
+
+$('#violate-select tbody tr:last').hide().fadeIn(300);
+$(this).closest('tr').fadeOut(300, function() {
+  dataselect.row($(this)).remove().draw();
+});
+
+
+$('#resetAllBtn').click(function() {
+Swal.fire({
+  title: 'Yakin untuk mereset semuanya?',
+  text: "Semua charges dan data akan dihapus!",
+  iconHtml: '<img src="assets/brand/icoalert.png" style="width:100px;">',
+  showCancelButton: true,
+  confirmButtonColor: '#d33',
+  cancelButtonColor: '#3085d6',
+  confirmButtonText: 'Ya, Reset!',
+  cancelButtonText: 'Batal',
+  showClass: {
+    popup: 'animate__animated animate__fadeInDown'
+  },
+  hideClass: {
+    popup: 'animate__animated animate__fadeOutUp'
+  }
+}).then((result) => {
+  if (result.isConfirmed) {
+    location.reload();
+  }
+});
+});
+
+
+$('#removeCodeBtn').click(function() {
+    // 1. Kosongkan array selectedCodes
+    selectedCodes = [];
+    updateCodeList(); // Update Code Charges input
+
+    // 2. Reset jailtime dan fine
+    jailtime = 0;
+    fine = 0;
+
+    // 3. Reset Command
+    $('#arrest').val('/arrest 0 0 0 0');
+
+    // 4. Kosongkan isi tabel violate-select
+    dataselect.clear().draw();
+
+    // 5. Aktifkan kembali semua tombol Add di violate-data
+    $('#violate-data').find('button.btn-success').prop('disabled', false);
+});
+
+  $(document).ready(function() {
+      // Retrieve JSON data from "jsonexdata.json" file
+      // Saat input ID berubah, update command arrest
+$('#suspectid').on('input', function() {
+  suspectid = $(this).val();
+  var textarrest = '/arrest ' + suspectid + ' [Cell ID (1-7)] ' +
+                   (jailtime < maxjailtime ? jailtime : maxjailtime) + ' ' +
+                   (fine < maxfine ? fine : maxfine);
+  $('#arrest').val(textarrest);
+});
+suspectid = $(this).val() || 0;
+
+      let jailtime = 0;
+      let fine = 0;
+      let maxjailtime = 500;
+      let maxfine = 50000;
+      let jsonData = [
+
+
+      {
+  "code": "PEN 200",
+  "name": "Public Urination",
+  "jailtime": "10",
+  "fine": "847"
+  },
+  {
+  "code": "PEN 202",
+  "name": "Graffiti",
+  "jailtime": "Ticket",
+  "fine": "1345"
+  },
+  {
+  "code": "PEN 203",
+  "name": "Littering",
+  "jailtime": "Ticket",
+  "fine": "1349"
+  },
+  {
+  "code": "PEN 353",
+  "name": "Drug Manufacturing and Distribution",
+  "jailtime": "15",
+  "fine": "2000"
+  },
+  {
+  "code": "PEN 204",
+  "name": "Loitering",
+  "jailtime": "Ticket",
+  "fine": "601"
+  },
+  {
+  "code": "PEN 205",
+  "name": "Indecent Exposure",
+  "jailtime": "Ticket",
+  "fine": "630"
+  },
+  {
+  "code": "PEN 206",
+  "name": "Disturbing the Peace",
+  "jailtime": "15",
+  "fine": "2290"
+  },
+  {
+  "code": "PEN 207",
+  "name": "Trespassing",
+  "jailtime": "30",
+  "fine": "3195"
+  },
+  {
+  "code": "PEN 209",
+  "name": "Jaywalking",
+  "jailtime": "Ticket",
+  "fine": "939"
+  },
+  {
+  "code": "HSC  209",
+  "name": "Smoking Violation",
+  "jailtime": "Ticket",
+  "fine": "1483"
+  },
+  {
+  "code": "VEH 210",
+  "name": "Illegal Camping",
+  "jailtime": "Ticket",
+  "fine": "918"
+  },
+  {
+  "code": "HSC  211",
+  "name": "Open Container",
+  "jailtime": "15",
+  "fine": "1406"
+  },
+  {
+  "code": "HSC   212(a)",
+  "name": "Personal use of Marijuana (less than 5kg)",
+  "jailtime": "10",
+  "fine": "1415"
+  },
+  {
+  "code": "HSC   212(b)",
+  "name": "Personal use of Marijuana (more than 5kg)",
+  "jailtime": "20",
+  "fine": "2209"
+  },
+  {
+  "code": "HSC   212(c)",
+  "name": "Personal use of Cocaine (less than 5kg)",
+  "jailtime": "10",
+  "fine": "711"
+  },
+  {
+  "code": "HSC   212(d)",
+  "name": "Personal use of Cocaine (more than 5kg)",
+  "jailtime": "20",
+  "fine": "1814"
+  },
+  {
+  "code": "HSC   212(e)",
+  "name": "Personal use of Heroin (less than 5kg)",
+  "jailtime": "20",
+  "fine": "2063"
+  },
+  {
+  "code": "HSC   212(g)",
+  "name": "Personal use of Steroid (less than 5kg)",
+  "jailtime": "20",
+  "fine": "1171"
+  },
+  {
+  "code": "HSC   212(h)",
+  "name": "Personal use of Steroid (more than 5kg)",
+  "jailtime": "30",
+  "fine": "3279"
+  },
+  {
+  "code": "VEH 100",
+  "name": "Speeding (Under 10)",
+  "jailtime": "TICKET",
+  "fine": "1138"
+  },
+  {
+  "code": "VEH 101(a)",
+  "name": "Speeding (Between 10-15)",
+  "jailtime": "TICKET",
+  "fine": "758"
+  },
+  {
+  "code": "VEH 101(b)",
+  "name": "Speeding (Between 16-30)",
+  "jailtime": "TICKET",
+  "fine": "653"
+  },
+  {
+  "code": "VEH 103",
+  "name": "Speeding (Over 30+)",
+  "jailtime": "IMPOUND",
+  "fine": "1228"
+  },
+  {
+  "code": "VEH 104",
+  "name": "Racing on highway",
+  "jailtime": "IMPOUND",
+  "fine": "1092"
+  },
+  {
+  "code": "VEH 105",
+  "name": "Improper Lane Change",
+  "jailtime": "TICKET",
+  "fine": "1150"
+  },
+  {
+  "code": "VEH 106",
+  "name": "Improper Passing",
+  "jailtime": "TICKET",
+  "fine": "803"
+  },
+  {
+  "code": "VEH 107",
+  "name": "Improper Turn",
+  "jailtime": "TICKET",
+  "fine": "1171"
+  },
+  {
+  "code": "VEH 108",
+  "name": "Improper U-Turn",
+  "jailtime": "TICKET",
+  "fine": "589"
+  },
+  {
+  "code": "VEH 109",
+  "name": "Violation of Right of Way",
+  "jailtime": "TICKET",
+  "fine": "1277"
+  },
+  {
+  "code": "VEH 110",
+  "name": "Careless Driving",
+  "jailtime": "TICKET",
+  "fine": "1430"
+  },
+  {
+  "code": "VEH 111",
+  "name": "Following too Closely",
+  "jailtime": "TICKET",
+  "fine": "785"
+  },
+  {
+  "code": "VEH 112",
+  "name": "Failure to Signal",
+  "jailtime": "TICKET",
+  "fine": "978"
+  },
+  {
+  "code": "VEH 113",
+  "name": "Failure to Yield",
+  "jailtime": "TICKET",
+  "fine": "1001"
+  },
+  {
+  "code": "VEH 114",
+  "name": "Failure to Yield to Emergency Vehicle",
+  "jailtime": "TICKET",
+  "fine": "1255"
+  },
+  {
+  "code": "VEH 115",
+  "name": "Impeding Flow of Traffic",
+  "jailtime": "TICKET",
+  "fine": "1383"
+  },
+  {
+  "code": "VEH 116",
+  "name": "At Fault in an Accident",
+  "jailtime": "IMPOUND",
+  "fine": "1429"
+  },
+  {
+  "code": "VEH 117",
+  "name": "Failure to Stop at a Traffic Signal",
+  "jailtime": "TICKET",
+  "fine": "586"
+  },
+  {
+  "code": "VEH 117(a)",
+  "name": "(M)Failure/Refusing to Pay Ticket",
+  "jailtime": "15",
+  "fine": "633"
+  },
+  {
+  "code": "VEH 118",
+  "name": "Running a Stop Sign",
+  "jailtime": "TICKET",
+  "fine": "1118"
+  },
+  {
+  "code": "VEH 119",
+  "name": "Crossing over a center divider, median or gore",
+  "jailtime": "TICKET",
+  "fine": "963"
+  },
+  {
+  "code": "VEH 120",
+  "name": "Driving on the Shoulder (Illegal under certain conditions)",
+  "jailtime": "TICKET",
+  "fine": "1278"
+  },
+  {
+  "code": "VEH 121",
+  "name": "Failure to Secure Load to Truck or Lorry",
+  "jailtime": "TICKET",
+  "fine": "898"
+  },
+  {
+  "code": "VEH 122",
+  "name": "Operating Motorcycle/ATV without a helmet",
+  "jailtime": "TICKET",
+  "fine": "1196"
+  },
+  {
+  "code": "VEH 123",
+  "name": "Operating a Telecommunications Device while Driving",
+  "jailtime": "TICKET",
+  "fine": "1271"
+  },
+  {
+  "code": "VEH 124",
+  "name": "Excessive Acceleration",
+  "jailtime": "TICKET",
+  "fine": "1135"
+  },
+  {
+  "code": "VEH 125",
+  "name": "Riding Bicycle on Roadway",
+  "jailtime": "TICKET",
+  "fine": "904"
+  },
+  {
+  "code": "VEH 126",
+  "name": "Operating Vehicle in Bicycle Lane",
+  "jailtime": "TICKET",
+  "fine": "589"
+  },
+  {
+  "code": "VEH 460",
+  "name": "Driving Wrong Way",
+  "jailtime": "Ticket",
+  "fine": "950"
+  },
+  {
+  "code": "VEH 280",
+  "name": "Improper Lighting",
+  "jailtime": "TICKET",
+  "fine": "587"
+  },
+  {
+  "code": "VEH 520",
+  "name": "License Plate Display Failure",
+  "jailtime": "IMPOUND",
+  "fine": "1231"
+  },
+  {
+  "code": "VEH 521",
+  "name": "Unregistered Vehicle",
+  "jailtime": "IMPOUND",
+  "fine": "1000"
+  },
+  {
+  "code": "VEH 380",
+  "name": "Impersonate a government vehicle",
+  "jailtime": "IMPOUND",
+  "fine": "2500"
+  },
+  {
+  "code": "VEH 225",
+  "name": "Blocking Driveway/Crosswalk/Sidewalk",
+  "jailtime": "Impound",
+  "fine": "2500"
+  },
+  {
+  "code": "PEN 597",
+  "name": "(M)Animal Cruelty",
+  "jailtime": "25",
+  "fine": "1286"
+  },
+  {
+  "code": "PEN 713",
+  "name": "(M)Bribery",
+  "jailtime": "25",
+  "fine": "1016"
+  },
+  {
+  "code": "PEN 719",
+  "name": "(M)Drunk in Public",
+  "jailtime": "15",
+  "fine": "2260"
+  },
+  {
+  "code": "PEN 723",
+  "name": "(M)OPEN  Container in Public",
+  "jailtime": "25",
+  "fine": "2089"
+  },
+  {
+  "code": "PEN 725",
+  "name": "(M)Indecent Exposure",
+  "jailtime": "25",
+  "fine": "907"
+  },
+  {
+  "code": "PEN 727",
+  "name": "(M)Disorderly Conduct",
+  "jailtime": "25",
+  "fine": "832"
+  },
+  {
+  "code": "PEN 731",
+  "name": "(M)Harassment",
+  "jailtime": "25",
+  "fine": "1958"
+  },
+  {
+  "code": "PEN 735",
+  "name": "(M)Providing Fake Name/Id to Police",
+  "jailtime": "15",
+  "fine": "2201"
+  },
+  {
+  "code": "PEN 739",
+  "name": "(M)Illegal Broadcasting",
+  "jailtime": "25",
+  "fine": "1895"
+  },
+  {
+  "code": "PEN 743",
+  "name": "(M)Failure/Refusing to Pay Bar/Hotel Tab",
+  "jailtime": "25",
+  "fine": "1211"
+  },
+  {
+  "code": "PEN 757",
+  "name": "(M)Possession of Burglary Tools",
+  "jailtime": "25",
+  "fine": "806"
+  },
+  {
+  "code": "PEN 135",
+  "name": "(M)Destroying/Concealing Evidence",
+  "jailtime": "35",
+  "fine": "1533"
+  },
+  {
+  "code": "PEN 134",
+  "name": "(M)Planting/Tampering Evidence",
+  "jailtime": "15",
+  "fine": "2329"
+  },
+  {
+  "code": "PEN 137",
+  "name": "(M)Witness Tampering",
+  "jailtime": "10",
+  "fine": "648"
+  },
+  {
+  "code": "PEN 148",
+  "name": "(M)Obstruction of Justice",
+  "jailtime": "15",
+  "fine": "3943"
+  },
+  {
+  "code": "PEN 301",
+  "name": "(M)Possession of Marijuana",
+  "jailtime": "25",
+  "fine": "2116"
+  },
+  {
+  "code": "PEN 496(C)",
+  "name": "(M)Possession of Stolen Drivers License or ID",
+  "jailtime": "25",
+  "fine": "2328"
+  },
+  {
+  "code": "PEN 496(d)",
+  "name": "(f)Brandishing a Firearm or Weapon",
+  "jailtime": "10",
+  "fine": "3650"
+  },
+  {
+  "code": "PEN 594",
+  "name": "(M)Destruction of Public Property",
+  "jailtime": "25",
+  "fine": "1755"
+  },
+  {
+  "code": "PEN 594(a)",
+  "name": "(M)Destruction of Private Property",
+  "jailtime": "25",
+  "fine": "2255"
+  },
+  {
+  "code": "PEN 625(b)",
+  "name": "(M)Mischief",
+  "jailtime": "25",
+  "fine": "2248"
+  },
+  {
+  "code": "PEN 647",
+  "name": "(M)Prowling",
+  "jailtime": "25",
+  "fine": "957"
+  },
+  {
+  "code": "PEN 463(a)",
+  "name": "(M)Looting",
+  "jailtime": "15",
+  "fine": "2164"
+  },
+  {
+  "code": "PEN 459(a)",
+  "name": "(M)Shoplifting",
+  "jailtime": "25",
+  "fine": "2141"
+  },
+  {
+  "code": "PEN 488",
+  "name": "(M)Petty Theft",
+  "jailtime": "25",
+  "fine": "1697"
+  },
+  {
+  "code": "PEN 490(a)",
+  "name": "(M)Retail Theft",
+  "jailtime": "25",
+  "fine": "1603"
+  },
+  {
+  "code": "PEN 123",
+  "name": "(M)Driving Wrong Way",
+  "jailtime": "15",
+  "fine": "2241"
+  },
+  {
+  "code": "PEN 789",
+  "name": "(M)Street Racing",
+  "jailtime": "25",
+  "fine": "1454"
+  },
+  {
+  "code": "PEN 719(a)",
+  "name": "DUI (Driving Under the Influence)",
+  "jailtime": "15",
+  "fine": "2118"
+  },
+  {
+  "code": "PEN 719(b)",
+  "name": "DWI (Driving While Intoxicated)",
+  "jailtime": "15",
+  "fine": "2082"
+  },
+  {
+  "code": "HSC   212(f)",
+  "name": "Personal use of Heroin (more than 5kg)",
+  "jailtime": "30",
+  "fine": "1959"
+  },
+  {
+  "code": "PEN 664(a)",
+  "name": "(F)Performing drive-by to LEO/Citizen",
+  "jailtime": "25",
+  "fine": "910"
+  },
+  {
+  "code": "PEN 240(a)",
+  "name": "(M)Simple Assault",
+  "jailtime": "15",
+  "fine": "2550"
+  },
+  {
+  "code": "PEN 240(c)",
+  "name": "(M)Brawl in public peace",
+  "jailtime": "20",
+  "fine": "550"
+  },
+  {
+  "code": "PEN 240(b)",
+  "name": "(F)Aggravated Assault",
+  "jailtime": "25",
+  "fine": "3674"
+  },
+  {
+  "code": "PEN 245(a)",
+  "name": "(F)Assault With a Deadly Weapon",
+  "jailtime": "20",
+  "fine": "3580"
+  },
+  {
+  "code": "PEN 243(a)",
+  "name": "(F)Assault on Police Officer",
+  "jailtime": "40",
+  "fine": "3594"
+  },
+  {
+  "code": "PEN 243",
+  "name": "(M)Disrespected to government",
+  "jailtime": "40",
+  "fine": "3094"
+  },
+  {
+  "code": "PEN 242(a)",
+  "name": "(M)Simple Battery",
+  "jailtime": "25",
+  "fine": "2266"
+  },
+  {
+  "code": "PEN 261",
+  "name": "(F)Sexual Assault",
+  "jailtime": "25",
+  "fine": "1868"
+  },
+  {
+  "code": "PEN 261(c)",
+  "name": "(F)Sexual Battery",
+  "jailtime": "30",
+  "fine": "2688"
+  },
+  {
+  "code": "PEN 459",
+  "name": "(F)Burglary",
+  "jailtime": "50",
+  "fine": "3272"
+  },
+  {
+  "code": "PEN 210",
+  "name": "(F)Armed Robbery",
+  "jailtime": "30",
+  "fine": "2981"
+  },
+  {
+  "code": "PEN 215(a)",
+  "name": "(F)Car Jacking",
+  "jailtime": "25",
+  "fine": "1992"
+  },
+  {
+  "code": "PEN 484(a)",
+  "name": "(F)Grand Theft Auto",
+  "jailtime": "25",
+  "fine": "953"
+  },
+  {
+  "code": "PEN 211",
+  "name": "(F)Home Invasion Robbery",
+  "jailtime": "35",
+  "fine": "2899"
+  },
+  {
+  "code": "PEN 484",
+  "name": "(F)Attempted Car Theft",
+  "jailtime": "25",
+  "fine": "1803"
+  },
+  {
+  "code": "PEN 405",
+  "name": "(F)Mayhem with violence",
+  "jailtime": "15",
+  "fine": "1718"
+  },
+  {
+  "code": "PEN 406",
+  "name": "(F)Committed a group criminal assault with or without weapons",
+  "jailtime": "30",
+  "fine": "5193"
+  },
+  {
+  "code": "PEN 407",
+  "name": "(F)Engaging in Violent Protest",
+  "jailtime": "25",
+  "fine": "2331"
+  },
+  {
+  "code": "PEN 408",
+  "name": "(F)Participating in Violent Protest",
+  "jailtime": "25",
+  "fine": "2159"
+  },
+  {
+  "code": "PEN 410",
+  "name": "(F)Unlawful Assembly",
+  "jailtime": "25",
+  "fine": "2366"
+  },
+  {
+  "code": "PEN 413",
+  "name": "(F)Resisting Arrest with Violence",
+  "jailtime": "25",
+  "fine": "1636"
+  },
+  {
+  "code": "PEN 711",
+  "name": "(F)Fraud",
+  "jailtime": "25",
+  "fine": "2396"
+  },
+  {
+  "code": "PEN 715",
+  "name": "(F)Money Laundering",
+  "jailtime": "25",
+  "fine": "957"
+  },
+  {
+  "code": "PEN 717",
+  "name": "(F)Identity Theft",
+  "jailtime": "25",
+  "fine": "1401"
+  },
+  {
+  "code": "PEN 721",
+  "name": "(F)Drugs in Public",
+  "jailtime": "25",
+  "fine": "1808"
+  },
+  {
+  "code": "PEN 729",
+  "name": "(F)Impersonating a Police Officer",
+  "jailtime": "25",
+  "fine": "1693"
+  },
+  {
+  "code": "PEN 733",
+  "name": "(M)Making Terroristic Threats",
+  "jailtime": "25",
+  "fine": "2094"
+  },
+  {
+  "code": "PEN 737",
+  "name": "(F)Assisting in Suicide",
+  "jailtime": "25",
+  "fine": "1730"
+  },
+  {
+  "code": "PEN 741",
+  "name": "(M)Misuse of government line",
+  "jailtime": "25",
+  "fine": "1104"
+  },
+  {
+  "code": "PEN 747",
+  "name": "(F)Soliciting Prostitution",
+  "jailtime": "25",
+  "fine": "1592"
+  },
+  {
+  "code": "PEN 749",
+  "name": "(F)Prostitution",
+  "jailtime": "25",
+  "fine": "1862"
+  },
+  {
+  "code": "PEN 751",
+  "name": "(F)Probation Violation",
+  "jailtime": "25",
+  "fine": "1007"
+  },
+  {
+  "code": "PEN 753",
+  "name": "(F)Parole Violation",
+  "jailtime": "25",
+  "fine": "1895"
+  },
+  {
+  "code": "PEN 755",
+  "name": "(F)Possession of Child Pornography",
+  "jailtime": "25",
+  "fine": "1531"
+  },
+  {
+  "code": "PEN 138",
+  "name": "(F)Harbouring Criminal",
+  "jailtime": "30",
+  "fine": "2958"
+  },
+  {
+  "code": "PEN 302",
+  "name": "(F)Possession of Cocaine",
+  "jailtime": "25",
+  "fine": "2231"
+  },
+  {
+  "code": "PEN 316",
+  "name": "(F)Possession of Steroids",
+  "jailtime": "25",
+  "fine": "1408"
+  },
+  {
+  "code": "PEN 496(a)",
+  "name": "(F)Possession of a Stolen Vehicle",
+  "jailtime": "15",
+  "fine": "1548"
+  },
+  {
+  "code": "PEN 497(a)",
+  "name": "(F)Possession of Stolen Property",
+  "jailtime": "15",
+  "fine": "1841"
+  },
+  {
+  "code": "PEN 496(b)",
+  "name": "(F)Possession of Stolen Government Property",
+  "jailtime": "15",
+  "fine": "1594"
+  },
+  {
+  "code": "PEN 594(b)",
+  "name": "(F)Tampering with Property Leading to Injury/Death",
+  "jailtime": "25",
+  "fine": "1525"
+  },
+  {
+  "code": "PEN 594",
+  "name": "(M)Vandalism of Public Property",
+  "jailtime": "25",
+  "fine": "1251"
+  },
+  {
+  "code": "PEN 594(a)",
+  "name": "(M)Vandalism of Private Property",
+  "jailtime": "25",
+  "fine": "2477"
+  },
+  {
+  "code": "PEN 594(b)",
+  "name": "(M)Vandalism of Government Property",
+  "jailtime": "25",
+  "fine": "1942"
+  },
+  {
+  "code": "PEN 456",
+  "name": "(M)Reckless Driving and Endangerment",
+  "jailtime": "25",
+  "fine": "3210"
+  },
+  {
+  "code": "PEN 102",
+  "name": "(F)Evading Arrest",
+  "jailtime": "10",
+  "fine": "1387"
+  },
+  {
+  "code": "PEN 103",
+  "name": "(F)Attempting to Flee/Elude Police",
+  "jailtime": "10",
+  "fine": "1740"
+  },
+  {
+  "code": "PEN 104",
+  "name": "(F)Fleeing Traffic Stop",
+  "jailtime": "15",
+  "fine": "2849"
+  },
+  {
+  "code": "PEN 105",
+  "name": "(F)Fleeing Police Resulting in Inj/Prop Damage or Death",
+  "jailtime": "20",
+  "fine": "3176"
+  },
+  {
+  "code": "PEN 106",
+  "name": "(F)Hit and Run (Victim Died)",
+  "jailtime": "25",
+  "fine": "1910"
+  },
+  {
+  "code": "PEN 107",
+  "name": "(F)Hit and Run (Victim Injured)",
+  "jailtime": "25",
+  "fine": "1658"
+  },
+  {
+  "code": "PEN 108",
+  "name": "(F)Hit and Run ( no injury )",
+  "jailtime": "25",
+  "fine": "1589"
+  },
+  {
+  "code": "PEN 201(a)",
+  "name": "(F)Driving While License expired or without official licenses",
+  "jailtime": "15",
+  "fine": "1431"
+  },
+  {
+  "code": "PEN 201(b)",
+  "name": "(F)Flying While License expired or without official licenses",
+  "jailtime": "25",
+  "fine": "1180"
+  },
+  {
+  "code": "PEN 201(c)",
+  "name": "(F)Driving Lorry while License expired or without official licenses",
+  "jailtime": "30",
+  "fine": "1471"
+  },
+  {
+  "code": "PEN 201(d)",
+  "name": "(F)Driving Heavy Truck while licenses expired or without official licenses",
+  "jailtime": "30",
+  "fine": "2657"
+  },
+  {
+  "code": "PEN 201(f)",
+  "name": "(F)Driving While License Revoked",
+  "jailtime": "25",
+  "fine": "975"
+  },
+  {
+  "code": "PEN 201(e)",
+  "name": "(F)Lorry driving in any federal road without officer permissions before",
+  "jailtime": "30",
+  "fine": "3194"
+  },
+  {
+  "code": "PEN 201(g)",
+  "name": "(F)Heavy truck driving in any federal road without officer permissions before",
+  "jailtime": "25",
+  "fine": "1480"
+  },
+  {
+  "code": "PEN 192(a)",
+  "name": "(F)Voluntary Manslaughter",
+  "jailtime": "25",
+  "fine": "2245"
+  },
+  {
+  "code": "PEN 192(b)",
+  "name": "(F)Involuntary Manslaughter",
+  "jailtime": "25",
+  "fine": "1622"
+  },
+  {
+  "code": "PEN 192(c)",
+  "name": "(F)Vehicular Manslaughter",
+  "jailtime": "25",
+  "fine": "1965"
+  },
+  {
+  "code": "PEN 187",
+  "name": "(F)Capital Murder",
+  "jailtime": "40",
+  "fine": "2658"
+  },
+  {
+  "code": "PEN 187(a)",
+  "name": "(F)Aggravated Murder (murdering)",
+  "jailtime": "50",
+  "fine": "2810"
+  },
+  {
+  "code": "PEN 187(b)",
+  "name": "(F)Attempted Murder",
+  "jailtime": "30",
+  "fine": "2271"
+  },
+  {
+  "code": "PEN 664",
+  "name": "(F)Attempted Murder of Police Officer",
+  "jailtime": "25",
+  "fine": "3814"
+  },
+  {
+  "code": "PEN 665",
+  "name": "(F)Murder of Police Officer",
+  "jailtime": "60",
+  "fine": "5214"
+  },
+  {
+  "code": "PEN 182",
+  "name": "(F)Conspiracy to Commit Murder",
+  "jailtime": "36",
+  "fine": "2037"
+  },
+  {
+  "code": "PEN 261(a)",
+  "name": "(F)Rape",
+  "jailtime": "20",
+  "fine": "950"
+  },
+  {
+  "code": "PEN 261(b)",
+  "name": "(F)Attempted Rape",
+  "jailtime": "12",
+  "fine": "975"
+  },
+  {
+  "code": "PEN 451(a)",
+  "name": "(F)Arson",
+  "jailtime": "25",
+  "fine": "2217"
+  },
+  {
+  "code": "PEN 451",
+  "name": "(F)Attempted Arson",
+  "jailtime": "25",
+  "fine": "943"
+  },
+  {
+  "code": "PEN 207(a)",
+  "name": "(F)Basic Kidnapping",
+  "jailtime": "30",
+  "fine": "1944"
+  },
+  {
+  "code": "PEN 411",
+  "name": "(F)Inciting Riot",
+  "jailtime": "30",
+  "fine": "3470"
+  },
+  {
+  "code": "PEN 412",
+  "name": "(F)Participating in Riot",
+  "jailtime": "25",
+  "fine": "1687"
+  },
+  {
+  "code": "PEN 759",
+  "name": "(F)Trafficking Illegal/Undocumented Immigrants",
+  "jailtime": "25",
+  "fine": "1938"
+  },
+  {
+  "code": "PEN 413",
+  "name": "(M)Organizing a Big/small Illegal Event",
+  "jailtime": "25",
+  "fine": "7500"
+  },
+  {
+  "code": "PEN 414",
+  "name": "(M)Failure to Obtain a Permit",
+  "jailtime": "15",
+  "fine": "2500"
+  },
+  {
+  "code": "PEN 761",
+  "name": "(F)Human Trafficking",
+  "jailtime": "25",
+  "fine": "1682"
+  },
+  {
+  "code": "PEN 352(a)",
+  "name": "(F)Drug Trafficking (Schedule I)",
+  "jailtime": "25",
+  "fine": "2457"
+  },
+  {
+  "code": "PEN 352(b)",
+  "name": "(F)Drug Trafficking (Schedule II)",
+  "jailtime": "30",
+  "fine": "3459"
+  },
+  {
+  "code": "PEN 352(c)",
+  "name": "(F)Drug Trafficking (Schedule III)",
+  "jailtime": "35",
+  "fine": "2137"
+  },
+  {
+  "code": "PEN 352(d)",
+  "name": "(F)Drug Trafficking (Schedule IV)",
+  "jailtime": "40",
+  "fine": "2810"
+  },
+  {
+  "code": "PEN 496",
+  "name": "(F)Illegal Possession of Firearm",
+  "jailtime": "25",
+  "fine": "2971"
+  },
+  {
+  "code": "PEN 496(e)",
+  "name": "(F)Illegal Firearm Schematic/blueprint and material",
+  "jailtime": "25",
+  "fine": "2347"
+  },
+  {
+  "code": "PEN 497",
+  "name": "(F)Illegal Possession of Firearm by Felon",
+  "jailtime": "30",
+  "fine": "3085"
+  },
+  {
+  "code": "PEN 500",
+  "name": "(F)Possession of Firearm (Serial Tampered)",
+  "jailtime": "20",
+  "fine": "1178"
+  },
+  {
+  "code": "PEN 501",
+  "name": "(F)Possession of Firearm (Illegal Discharge)",
+  "jailtime": "25",
+  "fine": "1977"
+  },
+  {
+  "code": "PEN 502",
+  "name": "(F)Possession of Firearm (Stolen)",
+  "jailtime": "25",
+  "fine": "1685"
+  },
+  {
+  "code": "PEN 503",
+  "name": "(F)Arms Trafficking",
+  "jailtime": "20",
+  "fine": "1117"
+  }
+         ];
+         jsonData = jsonData.map(item => {
+  let jail = parseInt(item.jailtime, 10);
+  let type = 'JAIL';
+  if (isNaN(jail)) {
+    jail = 0;
+    if (typeof item.jailtime === 'string') {
+      if (item.jailtime.toUpperCase().includes('TICKET')) type = 'TICKET';
+      else if (item.jailtime.toUpperCase().includes('IMPOUND')) type = 'IMPOUND';
+      else type = 'OTHER';
+    }
+  }
+  return { ...item, jailtime: jail, type };
+});
+
+		 
+        var tableBody = $("#violate-data tbody");
+
+        // Iterate over each person object in the JSON data
+        $.each(jsonData, function(index, charge) {
+          var row = $("<tr></tr>"); // Create a new table row
+          // Create table cells and fill them with the person's data
+          row.append($("<td></td>").text(charge.code));
+          row.append($("<td></td>").text(charge.name));
+let jailIcon = '';
+if (charge.type === 'JAIL') {
+  jailIcon = '🔒 ' + charge.jailtime;
+} else if (charge.type === 'TICKET') {
+  jailIcon = '💸 TICKET';
+} else if (charge.type === 'IMPOUND') {
+  jailIcon = '🚓 IMPOUND';
+} else {
+  jailIcon = '❓';
+}
+row.append($("<td></td>").text(jailIcon));
+
+          row.append($("<td></td>").text(charge.fine));
+          var button = $("<td></td>");
+          var convertcharge = 'item-' + charge.code.replace(/[ .]/g, function(match) {
+          return match === ' ' ? '-' : '';
+          });
+
+          button.append($('<button type="button" class="btn btn-sm btn-success">Add</button>').attr('id', convertcharge).attr('code', charge.code));
+          row.append(button);
+
+          tableBody.append(row); // Add the row to the table body
+        });
+        $('#violate-data').DataTable({
+        "order": [[0, "asc"]],
+        "paging": false,
+        responsive: true
+      });
+      var dataselect = new DataTable('#violate-select', {
+         "order": [[0, "asc"]],
+         "paging": false,
+         responsive: true
+      });
+        $('#violate-data').on('click', '.btn-success', function () {
+            let result = jsonData.filter(x=> x.code == $(this).attr("code"));
+            $(this).prop("disabled", true); 
+			let code = $(this).attr('code');
+if (!selectedCodes.includes(code)) {
+  selectedCodes.push(code);
+  updateCodeList();
+}
+            var cbody = $("#violate-select tbody");
+            $.each(result, function(index, charge) {
+              let jail = parseInt(charge.jailtime, 10);
+              if (!isNaN(jail)) {
+              jailtime += jail;
+}
+
+              fine = fine + parseInt(charge.fine, 10);
+              var convertcharge = 'item-' + charge.code.replace(/[ .]/g, function(match) {
+               return match === ' ' ? '-' : '';
+                });
+				
+               var buttons = '<button type="button" class="btn btn-sm btn-info copy-btn" code="' + charge.code + '" violation="' + charge.name + '">Copy</button>' +
+              '<button type="button" class="btn btn-sm btn-danger remove-btn" code="' + charge.code + '">Remove</button>';
+              var textarrest = '/arrest ' + suspectid + ' [Cell ID (1-7)] ' + (jailtime < maxjailtime ? jailtime : maxjailtime) + ' ' + (fine < maxfine ? fine : maxfine);
+              $('#arrest').val(textarrest);
+              dataselect.row
+              .add([charge.code, charge.name, charge.jailtime, charge.fine, buttons])
+              .draw();
+        });
+        });
+
+// Saat tombol COPY diklik
+$('#copyCodeBtn').click(function() {
+  var copyText = document.getElementById("codeList");
+  copyText.select();
+  document.execCommand("copy");
+
+  // Feedback visual
+  Swal.fire({
+    icon: 'success',
+    title: 'Disalin!',
+    text: 'Kode Penal berhasil disalin ke clipboard.',
+    timer: 1000,
+    showConfirmButton: false
+  });
+});
+
+
+$('#violate-select').on('click', '.btn-danger', function () {
+    var code = $(this).attr('code');
+
+    // Hapus dari array
+    selectedCodes = selectedCodes.filter(c => c !== code);
+    updateCodeList();
+
+    // Update jailtime dan fine
+    let result = jsonData.filter(x => x.code == code);
+    $.each(result, function(index, charge) {
+        let jail = parseInt(charge.jailtime, 10);
+if (!isNaN(jail)) {
+  jailtime -= jail;
+}
+
+        fine = fine - parseInt(charge.fine, 10);
+
+        var textarrest = '/arrest ' + suspectid + ' [Cell ID (1-7)] ' +
+                         (jailtime < maxjailtime ? jailtime : maxjailtime) + ' ' +
+                         (fine < maxfine ? fine : maxfine);
+        $('#arrest').val(textarrest);
+    });
+
+    // Remove row dari violate-select
+    dataselect
+        .row($(this).closest('tr'))
+        .remove()
+        .draw();
+
+    // Ini bagian penting untuk mengaktifkan kembali tombol Add
+    $('#violate-data button').each(function() {
+        if ($(this).attr('code') === code) {
+            $(this).prop('disabled', false);
+        }
+    });
+	// Ini bagian penting untuk mengaktifkan kembali tombol Add
+$('#violate-data button').each(function() {
+    if ($(this).attr('code') === code) {
+        $(this).prop('disabled', false);
+        $(this).closest('tr').removeClass('selected'); // <-- Tambahkan ini
+    }
+});
+
+});
+
+
+$('#suspectid').on('input', function () {
+  suspectid = $(this).val();
+  var textarrest = '/arrest ' + suspectid + ' [Cell ID (1-7)] ' +
+                   (jailtime < maxjailtime ? jailtime : maxjailtime) + ' ' +
+                   (fine < maxfine ? fine : maxfine);
+  $('#arrest').val(textarrest);
+});
+
+// Khusus tombol Copy di tabel (btn-info di dalam #violate-select)
+$('#violate-select').on('click', '.btn-info', function() {
+    let code = $(this).attr('code');
+    let result = jsonData.filter(x => x.code == code);
+    $.each(result, function(index, charge) {
+        let copysu;
+        if (charge.jailtime == 0) {
+            copysu = '/ticket ' + suspectid + ' ' + charge.fine + ' ' + charge.code + ' ' + charge.name;
+        } else {
+            copysu = '/su ' + suspectid + ' ' + charge.code + ' ' + charge.name;
+        }
+        var textarea = document.createElement('textarea');
+        textarea.value = copysu;
+        textarea.style.position = 'fixed';
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    });
+});
+
+// Khusus tombol Copy Command (id="copyarrest") dengan warning
+var shownWarning = false;
+$('#copyarrest').off('click').on('click', function() {
+    const suspectid = $('#suspectid').val().trim();
+
+    if (!suspectid) {
+        Swal.fire({
+            icon: 'error',
+            title: 'ID Kosong!',
+            text: 'Silakan masukkan Suspect ID terlebih dahulu sebelum menyalin command!',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Oke'
+        });
+        return;
+    }
+
+    var copyArrest = $('#arrest').val();
+    var textarea = document.createElement('textarea');
+    textarea.value = copyArrest;
+    textarea.style.position = 'fixed';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
+
+    if (!shownWarning) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Peringatan!',
+            text: 'Mohon check lagi pasal sesuai dan jumlah jailtime ((menghindari bug 500 menit))!',
+            confirmButtonColor: '#d33',
+            confirmButtonText: 'Saya mengerti'
+        });
+        shownWarning = true;
+    }
+});
+
+        $('#violate-select').on('click', '.btn-info', function() {
+            let result = jsonData.filter(x=> x.code == $(this).attr("code"));
+            $.each(result, function(index, charge) {
+               if(charge.jailtime == 0)
+               {
+                  var copysu = '/ticket ' + suspectid + ' ' + charge.fine + ' ' + charge.code + ' ' + charge.name;
+               } else
+               {
+                  var copysu = '/su ' + suspectid + ' ' + charge.code + ' ' + charge.name;
+               }
+            var textarea = document.createElement('textarea');
+            textarea.value = copysu;
+            textarea.style.position = 'fixed';
+            document.body.appendChild(textarea);
+            textarea.select(); // Select the text inside the textarea
+            document.execCommand('copy'); // Copy text to clipboard
+            document.body.removeChild(textarea);
+            });
+          });
+  });
+// Inisialisasi array kosong untuk daftar code
+let selectedCodes = [];
+
+// Update tampilan input field codeList
+function updateCodeList() {
+  const cleanedCodes = selectedCodes.map(code => code.trim().replace(/\s+/g, ' '));
+  $("#codeList").val(cleanedCodes.join(', '));
+}
+
+// Saat tombol Add di violate-data diklik
+$('#violate-data').on('click', '.btn-success', function() {
+    // Tambahkan class 'selected' ke baris ini
+    $(this).closest('tr').addClass('selected');
+});
+
+// Saat tombol Add diklik (untuk mengelola codeList)
+$('#violate-select').on('click', '.btn-success', function() {
+    var code = $(this).attr('code');
+    if (!selectedCodes.includes(code)) {
+        selectedCodes.push(code);
+        updateCodeList();
+    }
+});
+
+// Saat tombol COPY diklik
+$('#copyCodeBtn').click(function() {
+  var copyText = document.getElementById("codeList");
+  copyText.select();
+  document.execCommand("copy");
+});
+
+
+// Ambil nama pengunjung dari localStorage
+var nama = localStorage.getItem('namaPengunjung');
+if (nama) {
+  document.getElementById('namaContainer').innerHTML = `
+    <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User Icon" width="40" height="40" class="me-2 rounded-circle">
+    <div>
+      <strong>${nama}</strong><br>
+      <small class="text-muted">SAPD Penal Tool Access</small>
+    </div>
+  `;
+}
+
+// Cek apakah user sudah isi nama
+if (!localStorage.getItem('namaPengunjung')) {
+  // Kalau belum isi nama, kembalikan ke Welcome
+  window.location.href = "index.html"; // Balik ke welcome page
+}
+
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+// Cek apakah user sudah isi nama di localStorage
+if (!localStorage.getItem('namaPengunjung')) {
+  // Kalau belum, munculkan popup warning
+  Swal.fire({
+    icon: 'warning',
+    title: 'Akses Ditolak',
+    text: 'Anda belum masuk. Silakan kembali ke Home untuk memasukkan nama Anda!',
+    confirmButtonText: 'Kembali ke Home'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = "index.html"; // Redirect ke halaman welcome
+    }
+  });
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+function resetInactivityTimer() {
+  clearTimeout(window.inactivityTimer);
+  window.inactivityTimer = setTimeout(() => {
+    localStorage.removeItem('namaPengunjung');
+    Swal.fire({
+      icon: 'info',
+      title: 'Sesi Berakhir',
+      text: 'Anda tidak aktif selama 10 menit. Silakan login ulang.',
+      confirmButtonText: 'Kembali ke Home'
+    }).then(() => {
+      window.location.href = "index.html";
+    });
+  }, 1.800.000); // 10 menit = 600000 ms
+}
+
+// Pasang event listener aktivitas user
+['click', 'mousemove', 'keydown', 'scroll'].forEach(event => {
+  window.addEventListener(event, resetInactivityTimer);
+});
+
+// Mulai timer pertama kali
+resetInactivityTimer();
+</script>
+
+<script>
+  const API_KEY = '$2a$10$Nfe9.LLfNJJ.SxDnXlBm8eINigWJVD6qQcaPEZIuLmsosN.0o/2DG';
+  const BIN_ID = '68143c4b8a456b796695d549';
+  const namaPengunjung = localStorage.getItem('namaPengunjung') || 'Anonim';
+  
+  async function updateOnlineUsers() {
+    const url = `https://api.jsonbin.io/v3/b/${BIN_ID}`;
+    const headers = {
+      'X-Master-Key': API_KEY,
+      'Content-Type': 'application/json'
+    };
+  
+    try {
+      const res = await fetch(url, { headers });
+      const json = await res.json();
+      const data = json.record;
+  
+      const now = Date.now();
+      const batasAktif = now - 2 * 60 * 1000;
+  
+      const pengunjungBaru = data.pengunjung.filter(p => p.terakhirAktif > batasAktif);
+      const existing = pengunjungBaru.find(p => p.nama === namaPengunjung);
+  
+      if (existing) {
+        existing.terakhirAktif = now;
+      } else {
+        pengunjungBaru.push({ nama: namaPengunjung, terakhirAktif: now });
+      }
+  
+      await fetch(url, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({ pengunjung: pengunjungBaru })
+      });
+  
+      let baris = [];
+      pengunjungBaru.forEach((p, i) => {
+        if (i % 5 === 0) baris.push([]);
+        baris[baris.length - 1].push(p.nama);
+      });
+  
+      const daftarHTML = baris.map(row => `<li>${row.join(', ')}</li>`).join('');
+      document.getElementById('visitorList').innerHTML = daftarHTML;
+    } catch (err) {
+      console.error('Gagal update pengunjung:', err);
+    }
+  }
+  
+  updateOnlineUsers();
+  setInterval(updateOnlineUsers, 30000);
+
+  
+  </script>
+  
+
+</html>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</html>
