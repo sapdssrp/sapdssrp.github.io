@@ -20,6 +20,12 @@
 </div>
 
 <script>
+
+  if (localStorage.getItem('namaPengunjung')) {
+    // Kalau belum isi nama, kembalikan ke Welcome
+    window.location.href = "panel.html"; // Balik ke welcome page
+  }
+  
 const allowedUsers = {
   "Harrison Barnet": "12345",
   "Isaiah Chamberlain": "12345",
