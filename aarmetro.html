@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Generator BBCode - After Acident Report</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 30px;
+      background: #f7f7f7;
+    }
+    h3 {
+      margin-bottom: 10px;
+    }
+    .section {
+      margin-bottom: 25px;
+    }
+    .input-row {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    .input-row input {
+      padding: 8px;
+      margin-right: 10px;
+      width: 200px;
+      font-size: 14px;
+    }
+    .input-row button {
+      width: 30px;
+      height: 30px;
+      font-size: 16px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+    .output {
+      margin-left: 10px;
+      font-size: 13px;
+      color: green;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<div class="text-center mb-4">
+  <a href="metro.html" class="btn btn-outline-light btn-lg rounded-pill px-4 shadow">
+    ← Kembali ke Menu Utama
+  </a>
+</div>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Generator BBCode - After Accident Report</title>
+  <style>
+    body {
+      background-color: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    input {
+      background-color: #222;
+      border: 1px solid #444;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      margin-bottom: 15px;
+      border-radius: 4px;
+    }
+    h2 {
+      margin-bottom: 20px;
+    }
+    .section-title {
+      margin: 20px 0 10px;
+      font-weight: bold;
+    }
+    .input-row {
+      display: flex;
+      margin-bottom: 10px;
+    }
+    .input-row input {
+      margin-right: 10px;
+      flex: 1;
+    }
+    .input-row button {
+      width: 30px;
+      font-size: 14px;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+    textarea {
+      width: 100%;
+      height: 250px;
+      margin-top: 20px;
+      padding: 10px;
+      font-family: monospace;
+      background-color: #222;
+      color: white;
+      border: 1px solid #444;
+    }
+    .btn {
+      padding: 10px 20px;
+      margin-right: 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .generate {
+      background-color: #007d45;
+      color: white;
+    }
+    .copy {
+      background-color: #444f5a;
+      color: white;
+    }
+  </style>
+</head>
+<body class="container py-4">
+  <h1 class="text-center mb-4">Metropolitan After Acident Report Form</h1>
+
+    <div class="section-title">Operation Name</div>
+  <input id="fullname" type="text" placeholder="e.g., Operation Viper Spit/Armed Robbery Barricaded Situation">
+    <div class="section-title">Operation Code / Case ID</div>
+  <input id="operation" type="text" placeholder="e.g., AAR-VII-001">
+    <div class="section-title">Date</div>
+  <input id="date" type="text" placeholder="MM/DD/YYYY">
+    <div class="section-title">Time</div>
+  <input id="time" type="text" placeholder="XX:XX - XX:XX">
+    <div class="section-title">Platoon(s) Involved</div>
+  <input id="platoon" type="text" placeholder="Bravo / Charlie / Delta">
+    <div class="section-title">Commanding Officer</div>
+  <input id="commanding" type="text" placeholder="Fullname – Unit">
+    <div class="section-title">Scene Location</div>  
+  <input id="location" type="text" placeholder="Location of Situation">
+    <div class="section-title">1. Mission Objective</div>
+  <input id="mission" type="text" placeholder="State the purpose of the deployment. E.g., “Execute high-risk felony arrest warrant on armed suspect with gang affiliations.”">
+  
+    <div class="section-title">2. Units Deployed</div>
+    <div id="notable-container"></div>
+
+    <div class="section-title">Additional Support</div>
+  <input id="additional" type="text" placeholder="AIR-5 (Aviation), Patrol Units, EMS on standby">
+    <div class="section-title">3. Summary of Events</div>
+  <input id="summary" type="text" placeholder="Fill Here">
+    <div class="section-title">4. Outcome & Results</div>
+    <div class="section-title">Arrests Made</div>
+  <input id="arrest" type="text" placeholder="Yes / No — Suspect: Fullname">
+    <div class="section-title">Shoots Fired</div>
+  <input id="shoot" type="text" placeholder="Yes / No">
+    <div class="section-title">Force Used</div>
+  <input id="force" type="text" placeholder="Non-lethal / Lethal / None">
+    <div class="section-title">Items Seized</div>
+  <input id="items" type="text" placeholder="Glock 19, 32g cocaine, burner phone">
+    <div class="section-title">Injuries</div>
+  <input id="injuries" type="text" placeholder="None / Sergeant II Alejandro Graves (minor laceration)">
+
+    <div class="section-title">5. Participating Officers</div>
+    <div id="forum-container"></div>
+
+    <div class="section-title">6. Notable Incidents</div>
+  <input id="incident" type="text" placeholder="E.g., Suspect attempted to barricade with hostages. Team used tactical mirror to verify interior before breach.">
+    <div class="section-title">7. Command Notes</div>
+  <input id="notes" type="text" placeholder="Overall performance of team, leadership effectiveness, issues with comms or gear. Can be filled by Metro-CMD or Deputy Chief.">
+      <div class="section-title">Report Submitted By</div>
+  <input id="callsign" type="text" placeholder="(Your Name / Callsign)">
+      <div class="section-title">Date Report Submit</div>
+  <input id="submitdate" type="text" placeholder="MM/DD/YYYY">
+
+
+  <div>
+    <button class="btn generate" onclick="generateBBCode()">Generate BBCode</button>
+    <button class="btn copy" onclick="copyBBCode()">Copy</button>
+  </div>
+
+  <textarea id="output" placeholder="Generated BBCode will appear here..."></textarea>
+
+   <script>
+    function addRow(type) {
+      const container = document.getElementById(`${type}-container`);
+
+      const row = document.createElement('div');
+      row.className = 'input-row';
+
+      const inputTitle = document.createElement('input');
+      inputTitle.placeholder = 'Fill Here'
+
+      const inputLink = document.createElement('input');
+      inputLink.placeholder = type === 'notable' ? 'Unit' : 'Unit';
+
+      const addBtn = document.createElement('button');
+      addBtn.textContent = '+';
+      addBtn.onclick = () => addRow(type);
+
+      const removeBtn = document.createElement('button');
+      removeBtn.textContent = 'x';
+      removeBtn.onclick = () => {
+        if (container.children.length > 1) {
+          container.removeChild(row);
+        }
+      };
+
+      row.appendChild(inputTitle);
+      row.appendChild(inputLink);
+      row.appendChild(addBtn);
+      row.appendChild(removeBtn);
+
+      container.appendChild(row);
+    }
+
+    function generateBBCode() {
+      const fullname = document.getElementById('fullname').value.trim();
+      const operation = document.getElementById('operation').value.trim();
+      const date = document.getElementById('date').value.trim();
+      const time = document.getElementById('time').value.trim();
+      const platoon = document.getElementById('platoon').value.trim();
+      const commanding = document.getElementById('commanding').value.trim();
+      const location = document.getElementById('location').value.trim();
+      const mission = document.getElementById('mission').value.trim();
+      const additional = document.getElementById('additional').value.trim();
+      const summary = document.getElementById('summary').value.trim();
+      const arrest = document.getElementById('arrest').value.trim();
+      const shoot = document.getElementById('shoot').value.trim();
+      const force = document.getElementById('force').value.trim();
+      const items = document.getElementById('items').value.trim();
+      const injuries = document.getElementById('injuries').value.trim();
+      const incident = document.getElementById('incident').value.trim();
+      const notes = document.getElementById('notes').value.trim();
+      const callsign = document.getElementById('callsign').value.trim();
+      const submitdate = document.getElementById('submitdate').value.trim();
+
+let bbcode = `[divbox=white][hr]
+[align=center][size=200][b]Metropolitan Division — After Action Report[/b][/size]
+[i]“Report every shot, every second, every move.”[/i][/align]
+[hr]
+[b]Operation Name:[/b]  
+[i]${fullname}[/i]
+[b]Operation Code / Case ID:[/b]  
+[i]${operation}[/i]
+[b]Date:[/b]  
+[i]${date}[/i]
+[b]Time:[/b]  
+[i]${time}[/i]
+[b]Platoon(s) Involved:[/b]  
+[i]${platoon}[/i]
+[b]Commanding Officer:[/b]  
+[i]${commanding}[/i]
+[b]Scene Location:[/b]  
+[i]${location}[/i]
+[hr]
+[size=120][b]1. Mission Objective[/b][/size]  
+[i]${mission}[/i]
+[hr]
+[size=120][b]2. Units Deployed[/b][/size]\n`; 
+
+      bbcode += `[list]\n`;
+      document.querySelectorAll('#notable-container .input-row').forEach(row => {
+        const title = row.children[0].value.trim();
+        const link = row.children[1].value.trim();
+        if (title && link) {
+          bbcode += `[*][b]${title}:[/b] ${link}\n`;
+        }
+      })
+      bbcode += `[/list]\n`;
+
+    bbcode += `[b]Additional Support:[/b]  
+[i]${additional}[/i]
+[hr]
+[size=120][b]3. Summary of Events[/b][/size]  
+${summary}
+[hr]
+[size=120][b]4. Outcome & Results[/b][/size]  
+[b]Arrests Made:[/b] [i]${arrest}[/i]  
+[b]Shots Fired:[/b] [i]${shoot}[/i]  
+[b]Force Used:[/b] [i]${force}[/i]  
+[b]Items Seized:[/b] [i]${items}[/i]  
+[b]Injuries:[/b] [i]${injuries}[/i]
+[hr]
+[size=120][b]5. Participating Officers[/b][/size]\n`;
+
+      bbcode += `[list]\n`;
+      document.querySelectorAll('#notable-container .input-row').forEach(row => {
+        const title = row.children[0].value.trim();
+        const link = row.children[1].value.trim();
+        if (title && link) {
+          bbcode += `[*]${title} ${link}\n`;
+        }
+      })
+      bbcode += `[/list]\n`;
+
+    bbcode += `[hr]
+[size=120][b]6. Notable Incidents[/b][/size]  
+[i]${incident}[/i]
+[hr]
+[size=120][b]7. Command Notes[/b][/size]  
+[i]${notes}[/i]
+
+[quote][b]“Will Be fill on your Supervisor”[/b]  
+— Fullname, Unit[/quote]
+[hr]
+[size=100][i]Report submitted by: [b]${callsign}[/b]  
+Date: [b]${submitdate}[/b][/i][/divbox]`;
+
+
+      document.getElementById('output').value = bbcode;
+    }
+
+    function copyBBCode() {
+      const output = document.getElementById('output');
+      output.select();
+      document.execCommand('copy');
+      alert('BBCode copied to clipboard!');
+    }
+
+    // Add initial row for both sections
+    window.onload = () => {
+      addRow('notable');
+      addRow('forum');
+    };
+  </script>
+
+</body>
+</html>
